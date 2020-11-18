@@ -1,3 +1,11 @@
+
+import java.awt.Color;
+import java.awt.image.BandCombineOp;
+import java.sql.PreparedStatement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +17,8 @@
  * @author admin
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    DB_MAN DBM = new DB_MAN();
+    String loginID = null;
     /**
      * Creates new form MainFrame
      */
@@ -45,6 +54,9 @@ public class MainFrame extends javax.swing.JFrame {
         btnIdCheck = new javax.swing.JButton();
         txtJCheckPW = new javax.swing.JPasswordField();
         txtJPW = new javax.swing.JPasswordField();
+        lblPhone = new javax.swing.JLabel();
+        txtPhone = new javax.swing.JTextField();
+        checkPattern = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -145,6 +157,12 @@ public class MainFrame extends javax.swing.JFrame {
         lblName.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
         lblName.setText("성명");
 
+        txtJID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtJIDKeyTyped(evt);
+            }
+        });
+
         btnIdCheck.setFont(new java.awt.Font("굴림", 0, 18)); // NOI18N
         btnIdCheck.setText("중복 확인");
         btnIdCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -153,41 +171,67 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        txtJPW.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtJPWKeyPressed(evt);
+            }
+        });
+
+        lblPhone.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
+        lblPhone.setText("전화번호");
+
+        checkPattern.setFont(new java.awt.Font("돋움", 0, 14)); // NOI18N
+        checkPattern.setForeground(new java.awt.Color(102, 102, 255));
+        checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 8~15자리까지");
+
         javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
         jFrame2.getContentPane().setLayout(jFrame2Layout);
         jFrame2Layout.setHorizontalGroup(
             jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(btnJoin, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame2Layout.createSequentialGroup()
                 .addContainerGap(54, Short.MAX_VALUE)
-                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkResult)
+                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jFrame2Layout.createSequentialGroup()
-                                .addComponent(txtJID, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnIdCheck))))
-                    .addComponent(lblID)
+                                .addGap(158, 158, 158)
+                                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkResult)
+                                    .addGroup(jFrame2Layout.createSequentialGroup()
+                                        .addComponent(txtJID, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnIdCheck))))
+                            .addComponent(lblID))
+                        .addGap(58, 58, 58))
                     .addGroup(jFrame2Layout.createSequentialGroup()
-                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPw)
-                            .addComponent(lblName)
-                            .addComponent(lblPwCheck))
-                        .addGap(31, 31, 31)
-                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtJCheckPW)
+                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jFrame2Layout.createSequentialGroup()
+                                        .addComponent(lblPhone)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jFrame2Layout.createSequentialGroup()
+                                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblName)
+                                            .addComponent(lblPwCheck))
+                                        .addGap(31, 31, 31)
+                                        .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtJCheckPW)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame2Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jFrame2Layout.createSequentialGroup()
+                                    .addGap(196, 196, 196)
+                                    .addComponent(btnJoin, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jFrame2Layout.createSequentialGroup()
-                                .addComponent(txtJPW, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(58, 58, 58))
+                                .addComponent(lblPw)
+                                .addGap(78, 78, 78)
+                                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkPattern)
+                                    .addComponent(txtJPW, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jFrame2Layout.setVerticalGroup(
             jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +247,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPw)
                     .addComponent(txtJPW, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(13, 13, 13)
+                .addComponent(checkPattern)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPwCheck)
                     .addComponent(txtJCheckPW, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -212,8 +258,12 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(lblName)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPhone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(btnJoin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -375,23 +425,114 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJoinActionPerformed
         // 회원가입 화면의 회원가입 버튼
+        String id = txtJID.getText();          String name = txtName.getText();
+        String pw = txtJPW.getText();       String checkPw = txtJCheckPW.getText();
+        
+        //아이디 중복 확인, 비밀번호 확인, 비밀번호 규칙 확인(특수문자 한개) 
+        if(id.equals("") || name.equals("") || pw.equals("")) {
+            JOptionPane.showMessageDialog(null, "정보를 입력해주세요.", null, JOptionPane.INFORMATION_MESSAGE);
+        } else if(!checkResult.getText().equals("사용 가능한 아이디입니다.")) {
+            JOptionPane.showMessageDialog(null, "아이디 중복을 확인해주세요.", null, JOptionPane.INFORMATION_MESSAGE);
+        } else if(!checkPattern.getText().equals("사용 가능합니다.")) {
+            JOptionPane.showMessageDialog(null, "비밀번호 규칙을 확인해주세요.", null, JOptionPane.INFORMATION_MESSAGE);
+        } else if(!pw.equals(checkPw)) {
+            JOptionPane.showMessageDialog(null, "비밀번호 확인이 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            txtJPW.setText("");
+            txtJCheckPW.setText("");
+        } else {
+            txtJID.setText("");     txtName.setText("");        txtJPW.setText("");         txtJCheckPW.setText("");
+            
+            // DB 연결 후 INSERT
+        }
     }//GEN-LAST:event_btnJoinActionPerformed
 
     private void btnIdCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdCheckActionPerformed
         // 회원가입 화면의 중복확인 버튼
+        String checkID = txtJID.getText();
+        String strSQL = "SELECT ID FROM [User] WHERE ID = '" + checkID + "'";
+        try {
+            DBM.dbOpen();
+            DBM.DB_rs = DBM.DB_stmt.executeQuery(strSQL);
+            
+            if(DBM.DB_rs.next()) {
+                checkResult.setText("이미 존재하는 아이디입니다.");
+                checkResult.setForeground(Color.red);
+            } else {
+                checkResult.setText("사용 가능한 아이디입니다.");
+                checkResult.setForeground(Color.blue);
+            }
+            DBM.dbClose();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnIdCheckActionPerformed
 
     private void btnLJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLJoinActionPerformed
         // 로그인 화면의 회원가입 버튼
         jFrame2.setLocation(300, 300);
-        jFrame2.setSize(665, 400);
+        jFrame2.setSize(665, 500);
         jFrame1.setVisible(false);
         jFrame2.setVisible(true);
     }//GEN-LAST:event_btnLJoinActionPerformed
 
     private void btnLLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLLoginActionPerformed
         // 로그인 화면의 로그인 버튼
+        String ID = txtLID.getText();
+        String pw = txtLPW.getText();
+        String strSQL = "SELECT Password FROM [User] WHERE Id = '" +ID+"'" ;
+        
+        try {
+            DBM.dbOpen();
+            DBM.DB_rs = DBM.DB_stmt.executeQuery(strSQL);
+            
+            //로그인 처리
+            if(DBM.DB_rs.next()) {      //로그인 성공
+                if(DBM.DB_rs.getString(1).equals(pw)) {
+                    loginID = ID;
+                    jFrame1.setVisible(false);
+                }
+            } else {    //로그인 실패
+                JOptionPane.showMessageDialog(null, "아이디나 비밀번호가 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
+                txtLID.setText(""); 
+                txtLPW.setText("");
+            }
+            DBM.dbClose();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }         
     }//GEN-LAST:event_btnLLoginActionPerformed
+
+    private void txtJPWKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJPWKeyPressed
+        // TODO add your handling code here:
+        // 비밀번호 규칙 확인
+        String checkPW = txtJPW.getText()+evt.getKeyChar();
+        
+        Matcher match;
+        Pattern pAlphabetLow = Pattern.compile("[a-z]");
+        Pattern pNumber = Pattern.compile("[0-9]");
+        Pattern pSpecialChar = Pattern.compile("[!@#$%^&*?]");
+        int nCharType = 0;
+
+        match = pNumber.matcher(checkPW);
+        if(match.find()) nCharType++;
+
+        match = pAlphabetLow.matcher(checkPW);
+        if(match.find()) nCharType++;
+
+        match = pSpecialChar.matcher(checkPW);
+        if(match.find()) nCharType++;
+   
+        if (nCharType ==3 && checkPW.length() >= 7 && checkPW.length() <= 14) {
+            checkPattern.setText("사용 가능합니다.");
+        } else{
+            checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 8~15자리까지");
+        }
+    }//GEN-LAST:event_txtJPWKeyPressed
+
+    private void txtJIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJIDKeyTyped
+        checkResult.setText("아이디 중복을 확인해주세요.");
+        checkResult.setForeground(Color.blue);
+    }//GEN-LAST:event_txtJIDKeyTyped
 
     /**
      * @param args the command line arguments
@@ -437,6 +578,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JLabel checkPattern;
     private javax.swing.JLabel checkResult;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFrame jFrame1;
@@ -450,10 +592,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable4;
-    private javax.swing.JButton join;
-    private javax.swing.JButton join1;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblPw;
     private javax.swing.JLabel lblPwCheck;
     private javax.swing.JPasswordField txtJCheckPW;
@@ -462,5 +603,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtLID;
     private javax.swing.JPasswordField txtLPW;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

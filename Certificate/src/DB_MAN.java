@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class DB_MAN {
     String strDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String strURL = "jdbc:sqlserver://localhost:1433;DatabaseName=user";
+    String strURL = "jdbc:sqlserver://localhost:1433;DatabaseName=Certificate";
     String strUser = "sa";
     String strPWD = "inha1958";
     

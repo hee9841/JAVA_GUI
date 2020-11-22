@@ -1,10 +1,24 @@
 
 import java.awt.Color;
 import java.awt.image.BandCombineOp;
+import java.io.IOException;
+import java.io.StringReader;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+
+
+import java.util.Iterator;
+import java.util.Set;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +33,29 @@ import javax.swing.JOptionPane;
 public class MainFrame extends javax.swing.JFrame {
     DB_MAN DBM = new DB_MAN();
     String loginID = null;
+   
+ 
+    //key들을 넣을 배열들
+    ArrayList description = new ArrayList();//회차   
+    ArrayList docexamdt = new ArrayList();
+    ArrayList docpassdt = new ArrayList();
+    ArrayList docregenddt = new ArrayList();
+    ArrayList docregstartdt = new ArrayList();
+    ArrayList docsubmitentdt = new ArrayList();
+    ArrayList docsubmitstartdt = new ArrayList();
+    ArrayList pracexamenddt = new ArrayList();
+    ArrayList pracexamstartdt = new ArrayList();
+    ArrayList pracpassdt = new ArrayList();
+    ArrayList pracregenddt = new ArrayList();
+    ArrayList pracregstartdt = new ArrayList();
+    
+  
+    
+ 
+
+    
+    
+    
     /**
      * Creates new form MainFrame
      */
@@ -65,6 +102,8 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnLogin = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         btnDelete = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -275,9 +314,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnSearch.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
         btnSearch.setText("조    회");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnSave.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
         btnSave.setText("저    장");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         jTable1.setFont(new java.awt.Font("굴림", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -310,6 +359,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -326,6 +379,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -333,13 +388,16 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -534,10 +592,182 @@ public class MainFrame extends javax.swing.JFrame {
         checkResult.setForeground(Color.blue);
     }//GEN-LAST:event_txtJIDKeyTyped
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+       
+        description.clear(); 
+      
+        docexamdt.clear();
+        docpassdt.clear();
+        docregenddt.clear();
+        docregstartdt.clear();
+        docsubmitentdt.clear();
+        docsubmitstartdt.clear();
+        pracexamenddt.clear();
+        pracexamstartdt.clear();
+        pracpassdt.clear();
+        pracregenddt.clear();
+        pracregstartdt.clear();
+       
+       
+        Cdata api = new Cdata(); 
+        
+        String url = "";
+         
+        //api 요청 데이터 선택
+        switch(jComboBox1.getSelectedIndex()){
+            case 0 : //기능사
+                url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getCList";
+                break;
+            case 1: //기사, 산업 기사
+                url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getEList";
+                break;
+            case 2: // 기능장
+                url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getMCList";
+                break;
+            case 3: // 기술사
+                url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getPEList";
+                break;
+        }
+        
+       
+        
+            //받은 데이터 가공
+            try {
+               
+                String apidata =  api.getdata(url);
+                StringReader sr = new StringReader(apidata);
+               
+                JSONParser jp = new JSONParser();            
+                Object obj = jp.parse(sr);
+                 
+                JSONObject jo = (JSONObject) obj;//jo는 제이슨이며 api 데이터가 저장되어있음
+         
+                //api json 구조 response - body - itemes - item
+                JSONObject parse_response = (JSONObject) jo.get("response");
+                JSONObject parse_body = (JSONObject) parse_response.get("body");   
+                JSONObject items = (JSONObject) parse_body.get("items");
+       
+                JSONArray item = (JSONArray) items.get("item");
+                
+       
+                 
+                 // for(int i = 0 ; i < item.size() ; i++){//데이터 4개 이상 시 예외처리 필요
+                 int j=0;
+                 if(item.size() > 4){
+                  j = 4;
+                 }else{
+                     j = item.size();
+                 }
+                   for(int i = 0 ; i < j ; i++){   
+                  JSONObject object = (JSONObject) item.get(i);
+                  
+
+            
+                  description.add(object.get("description"));
+                  docexamdt.add(object.get("docexamdt"));
+                  docpassdt.add(object.get("docpassdt"));
+                  docregenddt.add(object.get("docregenddt"));
+                  docregstartdt.add(object.get("docregstartdt"));
+                  docsubmitentdt.add(object.get("docsubmitentdt"));
+                  docsubmitstartdt.add(object.get("docsubmitstartdt"));
+                  pracexamenddt.add(object.get("pracexamenddt"));
+                  pracexamstartdt.add(object.get("pracexamstartdt"));
+                  pracpassdt.add(object.get("pracpassdt"));
+                  pracregenddt.add(object.get("pracregenddt"));
+                  pracregstartdt.add(object.get("pracregstartdt"));
+        
+            }
+             
+            } catch (Exception ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
+            
+            
+            // 가공한 데이터 테이블에 삽입
+             switch(jComboBox1.getSelectedIndex()){ 
+            case 0 : //기능사
+                    for(int i = 0 ; i<description.size() ; i++){
+                    String cc = description.get(i).toString();
+                    if(cc.contains("상시")){
+                    continue;
+                    }
+              
+                    jTable1.setValueAt(description.get(i) , i, 0);//회차      
+                    jTable1.setValueAt(docregstartdt.get(i)+"~"+docregenddt.get(i), i, 1);//필기 원서접수 시작~끝
+                    jTable1.setValueAt(docexamdt.get(i), i, 2);//필기시험일
+                    jTable1.setValueAt(docpassdt.get(i), i, 3);//합격자발표일
+    
+                   //기능사는 서류 제출이 없음
+                    jTable1.setValueAt("별도의 서류제출 없음", i, 4);
+                    jTable1.setValueAt(pracregstartdt.get(i)+"~"+pracregenddt.get(i), i, 5);//실기 원서 접수 시간~끝
+                    jTable1.setValueAt(pracexamstartdt.get(i)+"~"+pracexamenddt.get(i), i, 6);//실기 시험일
+                    jTable1.setValueAt(pracpassdt.get(i), i, 7);//최종 합격자 팔표일
+                    }
+                    break;
+            
+            case 1: //기사, 산업 기사
+                
+                    for(int i = 0 ; i<description.size() ; i++){   
+                    jTable1.setValueAt(description.get(i) , i, 0);//회차      
+                    jTable1.setValueAt(docregstartdt.get(i)+"~"+docregenddt.get(i), i, 1);//필기 원서접수 시작~끝
+                    jTable1.setValueAt(docexamdt.get(i), i, 2);//필기시험일
+                    jTable1.setValueAt(docpassdt.get(i), i, 3);//합격자발표일
+                    jTable1.setValueAt(docsubmitstartdt.get(i)+"~"+docsubmitentdt.get(i), i, 4);//서류제출기간 시작~끝
+                    jTable1.setValueAt(pracregstartdt.get(i)+"~"+pracregenddt.get(i), i, 5);//실기 원서 접수 시간~끝
+                    jTable1.setValueAt(pracexamstartdt.get(i)+"~"+pracexamenddt.get(i), i, 6);//실기 시험일
+                    jTable1.setValueAt(pracpassdt.get(i), i, 7);//최종 합격자 팔표일
+                    }
+                    break;
+                    
+            case 2: // 기능장
+                    for(int i = 0 ; i<description.size() ; i++){   
+                    jTable1.setValueAt(description.get(i) , i, 0);//회차      
+                    jTable1.setValueAt(docregstartdt.get(i)+"~"+docregenddt.get(i), i, 1);//필기 원서접수 시작~끝
+                    jTable1.setValueAt(docexamdt.get(i), i, 2);//필기시험일
+                    jTable1.setValueAt(docpassdt.get(i), i, 3);//합격자발표일
+                    jTable1.setValueAt(docsubmitstartdt.get(i)+"~"+docsubmitentdt.get(i), i, 4);//서류제출기간 시작~끝
+                    jTable1.setValueAt(pracregstartdt.get(i)+"~"+pracregenddt.get(i), i, 5);//실기 원서 접수 시간~끝
+                    jTable1.setValueAt(pracexamstartdt.get(i)+"~"+pracexamenddt.get(i), i, 6);//실기 시험일
+                    jTable1.setValueAt(pracpassdt.get(i), i, 7);//최종 합격자 팔표일
+                    }
+                    break;
+            case 3: // 기술사
+                    for(int i = 0 ; i<description.size() ; i++){   
+                    jTable1.setValueAt(description.get(i) , i, 0);//회차      
+                    jTable1.setValueAt(docregstartdt.get(i)+"~"+docregenddt.get(i), i, 1);//필기 원서접수 시작~끝
+                    jTable1.setValueAt(docexamdt.get(i), i, 2);//필기시험일
+                    jTable1.setValueAt(docpassdt.get(i), i, 3);//합격자발표일
+                    jTable1.setValueAt(docsubmitstartdt.get(i)+"~"+docsubmitentdt.get(i), i, 4);//서류제출기간 시작~끝
+                    jTable1.setValueAt(pracregstartdt.get(i)+"~"+pracregenddt.get(i), i, 5);//실기 원서 접수 시간~끝
+                    jTable1.setValueAt(pracexamstartdt.get(i)+"~"+pracexamenddt.get(i), i, 6);//실기 시험일
+                    jTable1.setValueAt(pracpassdt.get(i), i, 7);//최종 합격자 팔표일
+                    }
+                    break;
+            }
+            
+            
+            
+       
+
+    
+       
+
+
+
+    }//GEN-LAST:event_btnSearchActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+            
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -561,6 +791,8 @@ public class MainFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -588,10 +820,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPhone;

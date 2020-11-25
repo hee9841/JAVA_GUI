@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.image.BandCombineOp;
 import java.io.IOException;
 import java.io.StringReader;
@@ -49,13 +50,6 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList pracregenddt = new ArrayList();
     ArrayList pracregstartdt = new ArrayList();
     
-  
-    
- 
-
-    
-    
-    
     /**
      * Creates new form MainFrame
      */
@@ -102,12 +96,11 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnLogin = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        lblLoginCheck = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnDelete = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        jTable2 = new javax.swing.JTable();
 
         btnLLogin.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
         btnLLogin.setText("로 그 인");
@@ -211,8 +204,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         txtJPW.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtJPWKeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtJPWKeyTyped(evt);
             }
         });
 
@@ -308,6 +301,11 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.setFont(new java.awt.Font("굴림", 0, 18)); // NOI18N
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         jComboBox1.setFont(new java.awt.Font("굴림", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "기능사", "기사, 산업기사", "기능장", "기술사" }));
@@ -328,7 +326,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("굴림", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("굴림", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -359,9 +357,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        lblLoginCheck.setFont(new java.awt.Font("돋움", 0, 30)); // NOI18N
+        lblLoginCheck.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -371,16 +368,17 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1324, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16)
+                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblLoginCheck))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -388,18 +386,18 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblLoginCheck)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -407,9 +405,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnDelete.setFont(new java.awt.Font("굴림", 0, 20)); // NOI18N
         btnDelete.setText("삭    제");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -427,8 +431,8 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable4.setRowHeight(60);
-        jScrollPane4.setViewportView(jTable4);
+        jTable2.setRowHeight(60);
+        jScrollPane4.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -437,7 +441,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1324, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -446,11 +450,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         jTabbedPane1.addTab("저장한 일정보기", jPanel2);
@@ -463,10 +467,9 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(jTabbedPane1))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
@@ -476,14 +479,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // 메인 화면의 로그인 버튼
-        jFrame1.setLocation(300, 300);
+        jFrame1.setLocation(200, 200);
         jFrame1.setSize(450, 300);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJoinActionPerformed
         // 회원가입 화면의 회원가입 버튼
-        String id = txtJID.getText();          String name = txtName.getText();
+        String id = txtJID.getText();          String name = txtName.getText();             String phone = txtPhone.getText();
         String pw = txtJPW.getText();       String checkPw = txtJCheckPW.getText();
         
         //아이디 중복 확인, 비밀번호 확인, 비밀번호 규칙 확인(특수문자 한개) 
@@ -494,13 +497,20 @@ public class MainFrame extends javax.swing.JFrame {
         } else if(!checkPattern.getText().equals("사용 가능합니다.")) {
             JOptionPane.showMessageDialog(null, "비밀번호 규칙을 확인해주세요.", null, JOptionPane.INFORMATION_MESSAGE);
         } else if(!pw.equals(checkPw)) {
-            JOptionPane.showMessageDialog(null, "비밀번호 확인이 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "비밀번호 확인이 일치하지 않습니다.", null, JOptionPane.INFORMATION_MESSAGE);
             txtJPW.setText("");
             txtJCheckPW.setText("");
         } else {
+            String strSQL = "Insert Into [User] Values('" + id +"', '" + pw + "', '" + name + "', '" + phone + "')";
+            try {   // DB에 추가
+                DBM.dbOpen();
+                DBM.DB_stmt.executeUpdate(strSQL);
+                DBM.dbClose();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
             txtJID.setText("");     txtName.setText("");        txtJPW.setText("");         txtJCheckPW.setText("");
-            
-            // DB 연결 후 INSERT
+            jFrame2.setVisible(false);
         }
     }//GEN-LAST:event_btnJoinActionPerformed
 
@@ -527,7 +537,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnLJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLJoinActionPerformed
         // 로그인 화면의 회원가입 버튼
-        jFrame2.setLocation(300, 300);
+        jFrame2.setLocation(200, 200);
         jFrame2.setSize(665, 500);
         jFrame1.setVisible(false);
         jFrame2.setVisible(true);
@@ -548,9 +558,15 @@ public class MainFrame extends javax.swing.JFrame {
                 if(DBM.DB_rs.getString(1).equals(pw)) {
                     loginID = ID;
                     jFrame1.setVisible(false);
+                    lblLoginCheck.setText(loginID+"님");
+                    btnLogin.setEnabled(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
+                    txtLID.setText(""); 
+                    txtLPW.setText("");
                 }
             } else {    //로그인 실패
-                JOptionPane.showMessageDialog(null, "아이디나 비밀번호가 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀립니다.", null, JOptionPane.INFORMATION_MESSAGE);
                 txtLID.setText(""); 
                 txtLPW.setText("");
             }
@@ -560,48 +576,59 @@ public class MainFrame extends javax.swing.JFrame {
         }         
     }//GEN-LAST:event_btnLLoginActionPerformed
 
-    private void txtJPWKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJPWKeyPressed
-        // TODO add your handling code here:
-        // 비밀번호 규칙 확인
-        String checkPW = txtJPW.getText()+evt.getKeyChar();
-        
-        Matcher match;
-        Pattern pAlphabetLow = Pattern.compile("[a-z]");
-        Pattern pNumber = Pattern.compile("[0-9]");
-        Pattern pSpecialChar = Pattern.compile("[!@#$%^&*?]");
-        int nCharType = 0;
-
-        match = pNumber.matcher(checkPW);
-        if(match.find()) nCharType++;
-
-        match = pAlphabetLow.matcher(checkPW);
-        if(match.find()) nCharType++;
-
-        match = pSpecialChar.matcher(checkPW);
-        if(match.find()) nCharType++;
-   
-        if (nCharType ==3 && checkPW.length() >= 7 && checkPW.length() <= 14) {
-            checkPattern.setText("사용 가능합니다.");
-        } else{
-            checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 8~15자리까지");
-        }
-    }//GEN-LAST:event_txtJPWKeyPressed
-
     private void txtJIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJIDKeyTyped
         checkResult.setText("아이디 중복을 확인해주세요.");
         checkResult.setForeground(Color.blue);
     }//GEN-LAST:event_txtJIDKeyTyped
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
-      
+        if(loginID == null) {   // 로그인하지 않은 상태에서는 사용 불가능
+            JOptionPane.showMessageDialog(null, "로그인 후 사용할 수 있습니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        int selectRow = jTable1.getSelectedRow(), iCntRow = 0;
+        
+        if(selectRow < 0) {
+            JOptionPane.showMessageDialog(null, "선택된 값이 없습니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        String selectDescription = jComboBox1.getSelectedItem().toString();
+//        String selectDocregdt = jTable1.getValueAt(selectRow, 1).toString();
+//        String selectDocExamdt = jTable1.getValueAt(selectRow, 2).toString();
+//        String selectDocPassdt = jTable1.getValueAt(selectRow, 3).toString();
+//        String selectDocument = jTable1.getValueAt(selectRow, 4).toString();
+//        String selectPracregdt = jTable1.getValueAt(selectRow, 5).toString();
+//        String selectPracexamdt = jTable1.getValueAt(selectRow, 6).toString();
+//        String selectPracpassdt = jTable1.getValueAt(selectRow, 7).toString();
+        
+        for(int idx = 0; idx < jTable2.getRowCount(); idx++) {
+            if(jTable2.getValueAt(idx, 0) == null) {
+                iCntRow = idx;
+                break;
+            }
+            if(jTable2.getValueAt(idx, 0).equals(selectDescription)) // 같은 행이 추가되지 않도록
+                return;
+        }
+        
+        jTable2.setValueAt(selectDescription, iCntRow, 0);
+//        jTable2.setValueAt(selectDocregdt, iCntRow, 1);
+//        jTable2.setValueAt(selectDocExamdt, iCntRow, 2);
+//        jTable2.setValueAt(selectDocPassdt, iCntRow, 3);
+//        jTable2.setValueAt(selectDocument, iCntRow, 4);
+//        jTable2.setValueAt(selectPracregdt, iCntRow, 5);
+//        jTable2.setValueAt(selectPracexamdt, iCntRow, 6);
+//        jTable2.setValueAt(selectPracpassdt, iCntRow, 7);
+        // jTable2에 현재 날짜에서 가장 가까운 시험 추가
+        
+        // DB에 INSERT 추가
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-
-       
-        description.clear(); 
       
+        description.clear(); 
+        
         docexamdt.clear();
         docpassdt.clear();
         docregenddt.clear();
@@ -657,32 +684,29 @@ public class MainFrame extends javax.swing.JFrame {
                 
        
                  
-                 // for(int i = 0 ; i < item.size() ; i++){//데이터 4개 이상 시 예외처리 필요
-                 int j=0;
-                 if(item.size() > 4){
-                  j = 4;
-                 }else{
-                     j = item.size();
-                 }
-                   for(int i = 0 ; i < j ; i++){   
-                  JSONObject object = (JSONObject) item.get(i);
-                  
-
-            
-                  description.add(object.get("description"));
-                  docexamdt.add(object.get("docexamdt"));
-                  docpassdt.add(object.get("docpassdt"));
-                  docregenddt.add(object.get("docregenddt"));
-                  docregstartdt.add(object.get("docregstartdt"));
-                  docsubmitentdt.add(object.get("docsubmitentdt"));
-                  docsubmitstartdt.add(object.get("docsubmitstartdt"));
-                  pracexamenddt.add(object.get("pracexamenddt"));
-                  pracexamstartdt.add(object.get("pracexamstartdt"));
-                  pracpassdt.add(object.get("pracpassdt"));
-                  pracregenddt.add(object.get("pracregenddt"));
-                  pracregstartdt.add(object.get("pracregstartdt"));
-        
-            }
+                // for(int i = 0 ; i < item.size() ; i++){//데이터 4개 이상 시 예외처리 필요
+                int j=0;
+                if(item.size() > 4){
+                    j = 4;
+                }else{
+                    j = item.size();
+                }
+                for(int i = 0 ; i < j ; i++){   
+                    JSONObject object = (JSONObject) item.get(i);
+                    
+                    description.add(object.get("description"));
+                    docexamdt.add(object.get("docexamdt"));
+                    docpassdt.add(object.get("docpassdt"));
+                    docregenddt.add(object.get("docregenddt"));
+                    docregstartdt.add(object.get("docregstartdt"));
+                    docsubmitentdt.add(object.get("docsubmitentdt"));
+                    docsubmitstartdt.add(object.get("docsubmitstartdt"));
+                    pracexamenddt.add(object.get("pracexamenddt"));
+                    pracexamstartdt.add(object.get("pracexamstartdt"));
+                    pracpassdt.add(object.get("pracpassdt"));
+                    pracregenddt.add(object.get("pracregenddt"));
+                    pracregstartdt.add(object.get("pracregstartdt"));
+                }
              
             } catch (Exception ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -691,12 +715,12 @@ public class MainFrame extends javax.swing.JFrame {
             
             
             // 가공한 데이터 테이블에 삽입
-             switch(jComboBox1.getSelectedIndex()){ 
+            switch(jComboBox1.getSelectedIndex()){ 
             case 0 : //기능사
                     for(int i = 0 ; i<description.size() ; i++){
                     String cc = description.get(i).toString();
                     if(cc.contains("상시")){
-                    continue;
+                        continue;
                     }
               
                     jTable1.setValueAt(description.get(i) , i, 0);//회차      
@@ -704,7 +728,7 @@ public class MainFrame extends javax.swing.JFrame {
                     jTable1.setValueAt(docexamdt.get(i), i, 2);//필기시험일
                     jTable1.setValueAt(docpassdt.get(i), i, 3);//합격자발표일
     
-                   //기능사는 서류 제출이 없음
+                    //기능사는 서류 제출이 없음
                     jTable1.setValueAt("별도의 서류제출 없음", i, 4);
                     jTable1.setValueAt(pracregstartdt.get(i)+"~"+pracregenddt.get(i), i, 5);//실기 원서 접수 시간~끝
                     jTable1.setValueAt(pracexamstartdt.get(i)+"~"+pracexamenddt.get(i), i, 6);//실기 시험일
@@ -751,17 +775,50 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                     break;
             }
-            
-            
-            
-       
-
-    
-       
-
-
-
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtJPWKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJPWKeyTyped
+        // 비밀번호 규칙 확인
+        String checkPW = txtJPW.getText()+evt.getKeyChar();
+        
+        if(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)
+            checkPW = txtJPW.getText();
+        
+        Matcher match;
+        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$");
+        
+        match = pattern.matcher(checkPW);
+        if(match.find()) {
+            checkPattern.setText("사용 가능합니다.");
+        } else {
+            checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 최소 8자리");
+        }
+    }//GEN-LAST:event_txtJPWKeyTyped
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectRow = jTable2.getSelectedRow();
+        
+        if(selectRow < 0) {
+            JOptionPane.showMessageDialog(null, "선택된 값이 없습니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        for(int idx=0; idx<jTable1.getColumnCount(); idx++)
+            jTable2.setValueAt(null, selectRow, idx);
+        
+        // DB에 DELETE 추가
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // 로그인 전에 저장한 일정 탭에 접근할 수 없게
+        int selectIndex = jTabbedPane1.getSelectedIndex();
+        String tabTitle = jTabbedPane1.getTitleAt(selectIndex);
+        
+        if(tabTitle.equals("저장한 일정보기") && loginID == null) {
+            JOptionPane.showMessageDialog(null, "로그인 후 접근 가능합니다.", null, JOptionPane.INFORMATION_MESSAGE);
+            jTabbedPane1.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     /**
      * @param args the command line arguments
@@ -820,13 +877,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblLoginCheck;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblPw;

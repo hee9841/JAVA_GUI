@@ -15,6 +15,10 @@ import javax.swing.JOptionPane;
 
 import java.util.Iterator;
 import java.util.Set;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -55,6 +59,10 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        jTable1.getColumn("년도별/회 별").setPreferredWidth(180);
+        
+        tableCellCenter(jTable1);
+        tableCellCenter(jTable2);
     }
 
     /**
@@ -477,6 +485,20 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //테이블 가운데 정렬 메소드
+    public void tableCellCenter(JTable t){
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        //정렬할 테이블의 ColumnModel를 가져옴 
+        TableColumnModel tcmSchedule = t.getColumnModel();
+        
+        //가운데 정렬
+        for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+            tcmSchedule.getColumn(i).setCellRenderer(dtcr);
+        }
+    }
+    
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // 메인 화면의 로그인 버튼
         jFrame1.setLocation(200, 200);
@@ -500,7 +522,11 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "비밀번호 확인이 일치하지 않습니다.", null, JOptionPane.INFORMATION_MESSAGE);
             txtJPW.setText("");
             txtJCheckPW.setText("");
-        } else {
+            
+        } else if(!checkPhoneNum(phone)) {
+            JOptionPane.showMessageDialog(null, "전화번호 형식을 확인해주세요. \n"
+                    + "('01011112222' 또는 '010-1111-2222')", null, JOptionPane.INFORMATION_MESSAGE);
+        }else {
             String strSQL = "Insert Into [User] Values('" + id +"', '" + pw + "', '" + name + "', '" + phone + "')";
             try {   // DB에 추가
                 DBM.dbOpen();
@@ -513,9 +539,17 @@ public class MainFrame extends javax.swing.JFrame {
             jFrame2.setVisible(false);
         }
     }//GEN-LAST:event_btnJoinActionPerformed
-
+    public boolean checkPhoneNum(String phoneNum) {
+        String regExp = "^01(?:0|1|[6-9])[-]?(\\d{3}|\\d{4})[-]?(\\d{4})$";
+        return phoneNum.matches(regExp);
+    }
+    
     private void btnIdCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIdCheckActionPerformed
         // 회원가입 화면의 중복확인 버튼
+         if(txtJID.getText().length() < 5 || txtJID.getText().length() > 20) {
+            checkResult.setText("5자~20자만 사용 가능합니다.");
+            return;
+        }
         String checkID = txtJID.getText();
         String strSQL = "SELECT ID FROM [User] WHERE ID = '" + checkID + "'";
         try {
@@ -640,6 +674,14 @@ public class MainFrame extends javax.swing.JFrame {
         pracpassdt.clear();
         pracregenddt.clear();
         pracregstartdt.clear();
+        
+        for(int irow =0; irow<jTable1.getRowCount(); irow++){
+            for(int icolumn = 0; icolumn < jTable1.getColumnCount(); icolumn++){
+                jTable1.setValueAt(null, irow, icolumn);
+            }
+           
+        }
+        
        
        
         Cdata api = new Cdata(); 

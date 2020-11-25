@@ -391,12 +391,14 @@
                                       <Component id="jComboBox1" min="-2" pref="249" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                       <Component id="btnSearch" min="-2" pref="127" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnSave" min="-2" pref="122" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnURL" min="-2" pref="122" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblLoginCheck" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="513" max="32767" attributes="0"/>
                               <Component id="btnLogin" min="-2" pref="131" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -417,6 +419,7 @@
                                   <Component id="btnSave" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                   <Component id="btnSearch" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                   <Component id="jComboBox1" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="btnURL" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -516,6 +519,17 @@
                 <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JButton" name="btnURL">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="&#xad74;&#xb9bc;" size="20" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&#xc6d0;&#xc11c;&#xc811;&#xc218;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnURLActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -532,10 +546,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane4" pref="1324" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane4" alignment="1" pref="1324" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="lblDocDday" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="lblPracDday" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnDelete" min="-2" pref="110" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -547,7 +565,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace pref="23" max="32767" attributes="0"/>
-                      <Component id="btnDelete" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btnDelete" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblDocDday" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPracDday" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="333" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
@@ -590,9 +614,28 @@
                     </Property>
                     <Property name="rowHeight" type="int" value="60"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable2MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="lblDocDday">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="&#xb3cb;&#xc6c0;" size="24" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&#xd544;&#xae30;&#xc2dc;&#xd5d8; D-day"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblPracDday">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="&#xb3cb;&#xc6c0;" size="24" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&#xc2e4;&#xae30;&#xc2dc;&#xd5d8; D-day"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

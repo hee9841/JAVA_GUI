@@ -231,7 +231,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         checkPattern.setFont(new java.awt.Font("돋움", 0, 14)); // NOI18N
         checkPattern.setForeground(new java.awt.Color(102, 102, 255));
-        checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 8~15자리까지");
+        checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 최소 8~15자리");
 
         javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
         jFrame2.getContentPane().setLayout(jFrame2Layout);
@@ -574,7 +574,7 @@ public class MainFrame extends javax.swing.JFrame {
             } catch(Exception e) {
                 e.printStackTrace();
             }
-            txtJID.setText("");     txtName.setText("");        txtJPW.setText("");         txtJCheckPW.setText("");
+            txtJID.setText("");     txtName.setText("");        txtJPW.setText("");         txtJCheckPW.setText("");        txtPhone.setText("");
             jFrame2.setVisible(false);
         }
     }//GEN-LAST:event_btnJoinActionPerformed
@@ -903,7 +903,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(match.find()) {
             checkPattern.setText("사용 가능합니다.");
         } else {
-            checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 최소 8자리");
+            checkPattern.setText("영문 소문자, 숫자, 특수문자 조합, 최소 8~15자리");
         }
     }//GEN-LAST:event_txtJPWKeyTyped
 

@@ -797,33 +797,56 @@ public class MainFrame extends javax.swing.JFrame {
                 
        
                  
-                // for(int i = 0 ; i < item.size() ; i++){//데이터 4개 이상 시 예외처리 필요
-                int j=0;
-                if(item.size() > 4){
-                    j = 4;
-                }else{
-                    j = item.size();
-                }
-                for(int i = 0 ; i < j ; i++){   
-                    JSONObject object = (JSONObject) item.get(i);
+                int cnt=0;
+                for(int i = 0 ; i < item.size() ; i++){
+         
+                     if(i==0){
+                         JSONObject object = (JSONObject) item.get(i);
+                         description.add(object.get("description"));
+                        docexamdt.add(object.get("docexamdt"));
+                        docpassdt.add(object.get("docpassdt"));
+                        docregenddt.add(object.get("docregenddt"));
+                        docregstartdt.add(object.get("docregstartdt"));
+                        docsubmitentdt.add(object.get("docsubmitentdt"));
+                        docsubmitstartdt.add(object.get("docsubmitstartdt"));
+                        pracexamenddt.add(object.get("pracexamenddt"));
+                        pracexamstartdt.add(object.get("pracexamstartdt"));
+                        pracpassdt.add(object.get("pracpassdt"));
+                        pracregenddt.add(object.get("pracregenddt"));
+                        pracregstartdt.add(object.get("pracregstartdt"));
+                        cnt++;
+                     }
+         
+                    if(i > 0){
+                        JSONObject object = (JSONObject) item.get(i);
+                        JSONObject object2 = (JSONObject) item.get(i-1);
+                          if(!object.get("description").equals(object2.get("description"))){//api의 중복 데이터를 정제
+                        description.add(object.get("description"));
+                        docexamdt.add(object.get("docexamdt"));
+                        docpassdt.add(object.get("docpassdt"));
+                        docregenddt.add(object.get("docregenddt"));
+                        docregstartdt.add(object.get("docregstartdt"));
+                        docsubmitentdt.add(object.get("docsubmitentdt"));
+                        docsubmitstartdt.add(object.get("docsubmitstartdt"));
+                        pracexamenddt.add(object.get("pracexamenddt"));
+                        pracexamstartdt.add(object.get("pracexamstartdt"));
+                        pracpassdt.add(object.get("pracpassdt"));
+                        pracregenddt.add(object.get("pracregenddt"));
+                        pracregstartdt.add(object.get("pracregstartdt"));
+                        cnt++;
+                    }
+                       if(cnt > 3){//api의 데이터 정제 // 시험일정이 1년에 최대 4회까지 밖에 없지만 그이상의 데이터가 존재함
+                           break;
+                       }   
+                   }
+                  
                     
-                    description.add(object.get("description"));
-                    docexamdt.add(object.get("docexamdt"));
-                    docpassdt.add(object.get("docpassdt"));
-                    docregenddt.add(object.get("docregenddt"));
-                    docregstartdt.add(object.get("docregstartdt"));
-                    docsubmitentdt.add(object.get("docsubmitentdt"));
-                    docsubmitstartdt.add(object.get("docsubmitstartdt"));
-                    pracexamenddt.add(object.get("pracexamenddt"));
-                    pracexamstartdt.add(object.get("pracexamstartdt"));
-                    pracpassdt.add(object.get("pracpassdt"));
-                    pracregenddt.add(object.get("pracregenddt"));
-                    pracregstartdt.add(object.get("pracregstartdt"));
+                   
                 }
              
             } catch (Exception ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }   
        
             
             // 가공한 데이터 테이블에 삽입
